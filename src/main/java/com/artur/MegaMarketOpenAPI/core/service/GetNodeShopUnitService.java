@@ -40,8 +40,9 @@ public class GetNodeShopUnitService {
 
                     currentTraversingCategory.addChild(childTraverseResult.getNodeShopUnitDTO);
                 }
-
-                currentTraversingCategory.setPrice(offersTotalPrice / offersCount);
+                if (offersCount != 0) {
+                    currentTraversingCategory.setPrice(offersTotalPrice / offersCount);
+                }
 
                 return new TraverseState(currentTraversingCategory, offersCount, offersTotalPrice);
             }
