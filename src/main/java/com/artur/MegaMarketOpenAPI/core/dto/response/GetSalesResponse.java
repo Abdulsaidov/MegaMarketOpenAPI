@@ -1,18 +1,15 @@
 package com.artur.MegaMarketOpenAPI.core.dto.response;
 
-import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
-
 import java.util.List;
 
 public class GetSalesResponse {
-    private List<SalesShopUnitDTO> items;
+    private List<ShopUnitDTO> items;
 
-    public List<SalesShopUnitDTO> getItems() {
+    public List<ShopUnitDTO> getItems() {
         return items;
     }
 
-    public void setItems(List<SalesShopUnitDTO> items) {
+    public void setItems(List<ShopUnitDTO> items) {
         this.items = items;
     }
 }

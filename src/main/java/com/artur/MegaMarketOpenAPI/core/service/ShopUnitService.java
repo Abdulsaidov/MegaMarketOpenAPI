@@ -1,7 +1,7 @@
 package com.artur.MegaMarketOpenAPI.core.service;
 
-import com.artur.MegaMarketOpenAPI.core.dto.ImportRequestShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.request.ImportRequestShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.ImportShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
 import com.artur.MegaMarketOpenAPI.core.exception.ShopUnitValidationException;
@@ -39,7 +39,7 @@ public class ShopUnitService {
     @Transactional
     public void importItems(ImportRequestShopUnitDTO importRequestShopUnitDTO) {
 
-        for (ShopUnitDTO item : importRequestShopUnitDTO.getItems()) {
+        for (ImportShopUnitDTO item : importRequestShopUnitDTO.getItems()) {
             ShopUnit shopUnit = getShopUnitById(item.getId()).orElse(new ShopUnit(item.getId(), item.getType()));
 
             if (!shopUnit.getType().equals(item.getType())) {

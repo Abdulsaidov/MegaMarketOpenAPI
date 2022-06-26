@@ -1,5 +1,6 @@
-package com.artur.MegaMarketOpenAPI.core.dto;
+package com.artur.MegaMarketOpenAPI.core.dto.request;
 
+import com.artur.MegaMarketOpenAPI.core.dto.ImportShopUnitDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
@@ -10,16 +11,16 @@ import java.util.List;
 public class ImportRequestShopUnitDTO {
 
     @NotEmpty
-    private List<@Valid ShopUnitDTO> items;
+    private List<@Valid ImportShopUnitDTO> items;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime updateDate;
 
-    public List<ShopUnitDTO> getItems() {
+    public List<ImportShopUnitDTO> getItems() {
         return items;
     }
 
-    public void setItems(List<ShopUnitDTO> items) {
+    public void setItems(List<ImportShopUnitDTO> items) {
         this.items = items;
     }
 

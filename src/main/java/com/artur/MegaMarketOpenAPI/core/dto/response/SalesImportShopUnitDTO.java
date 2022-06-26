@@ -1,8 +1,8 @@
 package com.artur.MegaMarketOpenAPI.core.dto.response;
 
-import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.ImportShopUnitDTO;
 
-public class SalesShopUnitDTO extends ShopUnitDTO {
+public class SalesImportShopUnitDTO extends ImportShopUnitDTO {
    private String date;
 
    public String getDate() {

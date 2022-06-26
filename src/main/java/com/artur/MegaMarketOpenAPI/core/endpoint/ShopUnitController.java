@@ -1,8 +1,8 @@
 package com.artur.MegaMarketOpenAPI.core.endpoint;
 
-import com.artur.MegaMarketOpenAPI.core.dto.GetNodeShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.ImportRequestShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.response.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.request.ImportRequestShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.ImportShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.dto.response.GetSalesResponse;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.exception.ShopUnitNotFoundException;
@@ -50,7 +50,7 @@ public class ShopUnitController {
     }
 
     @GetMapping("/nodes/{id}")
-    public ResponseEntity<GetNodeShopUnitDTO> getNodeById(@PathVariable @Pattern(regexp = ShopUnitDTO.REGEXPUUID) String id) {
+    public ResponseEntity<ShopUnitDTO> getNodeById(@PathVariable @Pattern(regexp = ImportShopUnitDTO.REGEXPUUID) String id) {
         ShopUnit shopUnit = shopUnitService.getShopUnitById(id).orElse(null);
         if (shopUnit == null)
             throw new ShopUnitNotFoundException(404, "Item not found");
@@ -59,7 +59,7 @@ public class ShopUnitController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteNodeById(@PathVariable @Pattern(regexp = ShopUnitDTO.REGEXPUUID) String id) {
+    public ResponseEntity<HttpStatus> deleteNodeById(@PathVariable @Pattern(regexp = ImportShopUnitDTO.REGEXPUUID) String id) {
         ShopUnit shopUnit = shopUnitService.getShopUnitById(id).orElse(null);
         if (shopUnit == null)
             throw new ShopUnitNotFoundException(404, "Item not found");

@@ -1,6 +1,6 @@
 package com.artur.MegaMarketOpenAPI.core.service;
 
-import com.artur.MegaMarketOpenAPI.core.dto.GetNodeShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.response.ShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
 import org.springframework.stereotype.Service;
@@ -11,12 +11,12 @@ import java.util.List;
 @Service
 public class GetNodeShopUnitService {
     private class TraverseState {
-        public GetNodeShopUnitDTO getNodeShopUnitDTO;
+        public ShopUnitDTO shopUnitDTO;
         public int offersCount;
         public int offersTotalPrice;
 
-        public TraverseState(GetNodeShopUnitDTO getNodeShopUnitDTO, int offersCount, int totalOffersPrice) {
-            this.getNodeShopUnitDTO = getNodeShopUnitDTO;
+        public TraverseState(ShopUnitDTO shopUnitDTO, int offersCount, int totalOffersPrice) {
+            this.shopUnitDTO = shopUnitDTO;
             this.offersCount = offersCount;
             this.offersTotalPrice = totalOffersPrice;
         }
@@ -25,9 +25,9 @@ public class GetNodeShopUnitService {
     private class ShopUnitMapper {
         private TraverseState traverse(ShopUnit shopUnit) {
             if (shopUnit.getType().equals(ShopUnitType.OFFER)) {
-                return new TraverseState(GetNodeShopUnitDTO.fromOffer(shopUnit), 1, shopUnit.getPrice());
+                return new TraverseState(ShopUnitDTO.fromOffer(shopUnit), 1, shopUnit.getPrice());
             } else {
-                GetNodeShopUnitDTO currentTraversingCategory = GetNodeShopUnitDTO.fromCategory(shopUnit);
+                ShopUnitDTO currentTraversingCategory = ShopUnitDTO.fromCategory(shopUnit);
                 int offersCount = 0;
                 int offersTotalPrice = 0;
 
@@ -38,7 +38,7 @@ public class GetNodeShopUnitService {
                     offersTotalPrice += childTraverseResult.offersTotalPrice;
                     offersCount += childTraverseResult.offersCount;
 
-                    currentTraversingCategory.addChild(childTraverseResult.getNodeShopUnitDTO);
+                    currentTraversingCategory.addChild(childTraverseResult.shopUnitDTO);
                 }
                 if (offersCount != 0) {
                     currentTraversingCategory.setPrice(offersTotalPrice / offersCount);
@@ -48,14 +48,14 @@ public class GetNodeShopUnitService {
             }
         }
 
-        public GetNodeShopUnitDTO map(ShopUnit shopUnit) {
+        public ShopUnitDTO map(ShopUnit shopUnit) {
             TraverseState state = this.traverse(shopUnit);
 
-            return state.getNodeShopUnitDTO;
+            return state.shopUnitDTO;
         }
     }
 
-    public GetNodeShopUnitDTO map(ShopUnit shopUnit) {
+    public ShopUnitDTO map(ShopUnit shopUnit) {
         ShopUnitMapper mapper = new ShopUnitMapper();
 
         return mapper.map(shopUnit);
