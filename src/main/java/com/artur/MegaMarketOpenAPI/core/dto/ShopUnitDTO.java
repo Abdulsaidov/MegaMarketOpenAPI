@@ -1,8 +1,9 @@
-package com.artur.MegaMarketOpenAPI.core.dto.response;
+package com.artur.MegaMarketOpenAPI.core.dto;
 
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
 
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,30 @@ public class ShopUnitDTO {
         return children;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public void setType(ShopUnitType type) {
+        this.type = type;
+    }
+
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setDate(OffsetDateTime date) {
+
+        this.date = date.format(new DateTimeFormatterBuilder()
+                .appendInstant(3).toFormatter());
     }
 
     public String getDate() {
@@ -80,7 +103,7 @@ public class ShopUnitDTO {
         shopUnitDTO.name = shopUnit.getName();
         shopUnitDTO.parentId = shopUnit.getParentId();
         shopUnitDTO.type = shopUnit.getType();
-        shopUnitDTO.date = shopUnit.getDate().format(new DateTimeFormatterBuilder().appendInstant(3).toFormatter());
+        shopUnitDTO.setDate(shopUnit.getDate());
         return shopUnitDTO;
     }
 

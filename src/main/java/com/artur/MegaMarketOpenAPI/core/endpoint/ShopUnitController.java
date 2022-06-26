@@ -1,8 +1,8 @@
 package com.artur.MegaMarketOpenAPI.core.endpoint;
 
-import com.artur.MegaMarketOpenAPI.core.dto.response.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.dto.request.ImportRequestShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.ImportShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.request.ImportShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.dto.response.GetSalesResponse;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.exception.ShopUnitNotFoundException;

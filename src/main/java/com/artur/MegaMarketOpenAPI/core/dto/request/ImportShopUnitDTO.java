@@ -1,4 +1,4 @@
-package com.artur.MegaMarketOpenAPI.core.dto;
+package com.artur.MegaMarketOpenAPI.core.dto.request;
 
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
 

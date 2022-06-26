@@ -1,6 +1,5 @@
 package com.artur.MegaMarketOpenAPI.core.dto.request;
 
-import com.artur.MegaMarketOpenAPI.core.dto.ImportShopUnitDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;

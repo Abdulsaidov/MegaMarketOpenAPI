@@ -1,6 +1,6 @@
 package com.artur.MegaMarketOpenAPI.core.service;
 
-import com.artur.MegaMarketOpenAPI.core.dto.response.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
 import com.artur.MegaMarketOpenAPI.core.repository.ShopUnitRepository;
@@ -29,16 +29,13 @@ public class SalesShopUnitService {
 
         OffsetDateTime before = date.minusHours(24);
         List<ShopUnitDTO> items = new ArrayList<>();
-        List<ShopUnit> shopUnits = shopUnitRepository.findShopUnitsByDateBetween(before, date);
-        ShopUnitDTO item = new ShopUnitDTO();
+        List<ShopUnit> shopUnits = shopUnitRepository.findShopUnitsByDateBetweenAndType(before, date, ShopUnitType.OFFER);
+
 
         for (ShopUnit s : shopUnits) {
-            if (s.getType().equals(ShopUnitType.OFFER)) {
-                modelMapper.map(s, item);
-                item.setDate(s.getDate().format(new DateTimeFormatterBuilder()
-                        .appendInstant(3).toFormatter()));
-                items.add(item);
-            }
+            ShopUnitDTO item = new ShopUnitDTO();
+            modelMapper.map(s, item);
+            items.add(item);
         }
         return items;
     }

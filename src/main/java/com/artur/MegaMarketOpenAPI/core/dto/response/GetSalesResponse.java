@@ -1,5 +1,7 @@
 package com.artur.MegaMarketOpenAPI.core.dto.response;
 
+import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
+
 import java.util.List;
 
 public class GetSalesResponse {

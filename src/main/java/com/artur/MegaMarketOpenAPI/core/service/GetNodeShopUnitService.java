@@ -1,6 +1,6 @@
 package com.artur.MegaMarketOpenAPI.core.service;
 
-import com.artur.MegaMarketOpenAPI.core.dto.response.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
 import org.springframework.stereotype.Service;

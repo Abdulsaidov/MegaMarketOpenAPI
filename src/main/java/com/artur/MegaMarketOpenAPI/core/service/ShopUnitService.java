@@ -1,7 +1,7 @@
 package com.artur.MegaMarketOpenAPI.core.service;
 
 import com.artur.MegaMarketOpenAPI.core.dto.request.ImportRequestShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.ImportShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.core.dto.request.ImportShopUnitDTO;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
 import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
 import com.artur.MegaMarketOpenAPI.core.exception.ShopUnitValidationException;
