@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public interface ShopUnitRepository extends JpaRepository<ShopUnit,String>  {
    Optional<ShopUnit> findById(String id);
-   Optional<ShopUnit> findFirstByIdOrderByDate(String id);
 
    List<ShopUnit> findShopUnitsByDateBetweenAndType(OffsetDateTime before, OffsetDateTime query, ShopUnitType type);
 }

@@ -75,14 +75,4 @@ public class ShopUnitController {
         salesResponse.setItems(salesShopUnitService.getSalesByDate(date));
         return ResponseEntity.ok(salesResponse);
     }
-
-//    @GetMapping("/nodes/{id}/statistic")
-//    public ResponseEntity<GetSalesResponse> getStatisticById(@PathVariable @Pattern(regexp = ShopUnitDTO.REGEXPUUID) String id,
-//                                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateStart,
-//                                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateEnd){
-//
-//        GetSalesResponse salesResponse = new GetSalesResponse();
-//        salesResponse.setItems(salesShopUnitService.getSalesByDate(date));
-//        return ResponseEntity.ok(salesResponse);
-//    }
 }
