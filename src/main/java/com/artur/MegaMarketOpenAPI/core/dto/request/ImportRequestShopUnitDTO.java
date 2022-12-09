@@ -12,7 +12,7 @@ public class ImportRequestShopUnitDTO {
     @NotEmpty
     private List<@Valid ImportShopUnitDTO> items;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime updateDate;
 
     public List<ImportShopUnitDTO> getItems() {
@@ -28,6 +28,14 @@ public class ImportRequestShopUnitDTO {
     }
 
     public void setUpdateDate(OffsetDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public ImportRequestShopUnitDTO() {
+    }
+
+    public ImportRequestShopUnitDTO(List<@Valid ImportShopUnitDTO> items, OffsetDateTime updateDate) {
+        this.items = items;
         this.updateDate = updateDate;
     }
 }

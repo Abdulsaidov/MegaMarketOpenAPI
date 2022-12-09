@@ -29,6 +29,17 @@ public class ImportShopUnitDTO {
 
     private Integer price;
 
+    public ImportShopUnitDTO() {
+    }
+
+    public ImportShopUnitDTO(String id, String name, String parentId, ShopUnitType type, Integer price) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+        this.type = type;
+        this.price = price;
+    }
+
     public String getId() {
         return id;
     }

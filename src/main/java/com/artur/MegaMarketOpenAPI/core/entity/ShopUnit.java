@@ -49,9 +49,16 @@ public class ShopUnit {
 
     }
 
-    public ShopUnit(String id, ShopUnitType type) {
+    public ShopUnit(String id,ShopUnitType type ) {
         this.type = type;
         this.id = id;
+    }
+
+    public ShopUnit(String id, String name,ShopUnitType type, OffsetDateTime date) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.date = date;
     }
 
     public String getId() {
@@ -100,5 +107,13 @@ public class ShopUnit {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopUnit{" +
+                "id='" + id + '\'' +
+                ", date=" + date +
+                '}';
     }
 }
