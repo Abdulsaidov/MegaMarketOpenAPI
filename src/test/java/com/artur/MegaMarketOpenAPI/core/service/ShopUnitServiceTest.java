@@ -1,96 +1,67 @@
 package com.artur.MegaMarketOpenAPI.core.service;
 
-import com.artur.MegaMarketOpenAPI.core.dto.request.ImportRequestShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.request.ImportShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
-import com.artur.MegaMarketOpenAPI.core.exception.ShopUnitValidationException;
-import com.artur.MegaMarketOpenAPI.core.repository.ShopUnitRepository;
+import com.artur.MegaMarketOpenAPI.dto.response.SalesResponse;
+import com.artur.MegaMarketOpenAPI.entity.ShopUnit;
+import com.artur.MegaMarketOpenAPI.repository.ShopUnitRepository;
+import com.artur.MegaMarketOpenAPI.service.ShopUnitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static com.artur.MegaMarketOpenAPI.core.service.TestDataGenerator.*;
 
 @SpringBootTest
 class ShopUnitServiceTest {
-    private static final String UUID = "550cb8c6-1554-4ffb-aaa7-f3fbefc8fa22";
     @Autowired
     ShopUnitRepository repository;
     @Autowired
     ShopUnitService service;
-    ShopUnit unit;
 
     @BeforeEach
     void setUp() {
-        unit = new ShopUnit(UUID, "name", ShopUnitType.CATEGORY, OffsetDateTime.now());
-        repository.save(unit);
+        repository.saveAll(generateShopUnits());
     }
 
 
-    @Test
-    void getShopUnitById() {
+    @ParameterizedTest
+    @ValueSource(strings = {"550cb8c6-1554-4ffb-aaa7-f3fbefc8fa21", "550cb8c6-1554-4ffb-aaa7-f3fbefc8fa22"})
+    void getShopUnitById(String UUID) {
         assertThat(service.getShopUnitById(UUID)).isNotEmpty();
         assertThat(service.getShopUnitById(UUID).orElse(new ShopUnit()).getId()).isEqualTo(UUID);
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"550cb8c6-1554-4ffb-aaa7-f3fbefc8fa21", "550cb8c6-1554-4ffb-aaa7-f3fbefc8fa22"})
+    void deleteUnitById(String UUID) {
+        assertDoesNotThrow(() -> service.deleteUnitById(UUID));
+    }
+
     @Test
-    void deleteUnitById() {
-        assertDoesNotThrow(() -> service.deleteUnitById("id"));
+    void importItems() {
+        service.importItems(generateTestData());
+        repository.findAll().forEach(System.out::println);
+        assertThat(repository.findAll().size()).isEqualTo(6);
+        assertThat(service.getShopUnitById("550cb8c6-1554-4ffb-aaa7-f3fbefc8fa26")).isNotEmpty();
+        assertThat(service.getShopUnitById("550cb8c6-1554-4ffb-aaa7-f3fbefc8fa26").orElse(new ShopUnit()).getName()).isEqualTo("iphoneX");
     }
 
-    @ParameterizedTest
-    @MethodSource("generateTestData")
-    void importItems(ImportRequestShopUnitDTO unitDTO) {
-        service.importItems(unitDTO);
-        assertThat(service.getShopUnitById("550cb8c6-1554-4ffb-aaa7-f3fbefc8fa11")).isNotEmpty();
-        assertThat(service.getShopUnitById("550cb8c6-1554-4ffb-aaa7-f3fbefc8fa11").orElse(new ShopUnit()).getName()).isEqualTo("cost");
-    }
-    @ParameterizedTest
-    @MethodSource("generateWrongTestData")
-    void importNotValidItems(ImportRequestShopUnitDTO unitDTO) {
-        assertThrows(RuntimeException.class,()->service.importItems(unitDTO));
+    @Test
+    void importNotValidItems() {
+        generateWrongTestData()
+                .forEach(unitDTO -> assertThrows(RuntimeException.class, () -> service.importItems(unitDTO)));
+
     }
 
-    private static Stream<ImportRequestShopUnitDTO> generateTestData() {
-
-        return Stream.of(
-                new ImportRequestShopUnitDTO(
-                        List.of(new ImportShopUnitDTO("550cb8c6-1554-4ffb-aaa7-f3fbefc8fa11",
-                                "cost",
-                                "550cb8c6-1554-4ffb-aaa7-f3fbefc8fa22",
-                                ShopUnitType.OFFER,
-                                90)),
-                        OffsetDateTime.now()));
-    }
-
-    private static Stream<ImportRequestShopUnitDTO> generateWrongTestData() {
-
-        return Stream.of(
-                new ImportRequestShopUnitDTO(
-                        List.of(new ImportShopUnitDTO("550cb8c6-1554-4ffb-aaa7-f3fbefc8fa11",
-                                "cost",
-                                "550cb8c6-1554-4ffb-aaa7-f3fbefc8fa",
-                                ShopUnitType.OFFER,
-                                90)),
-                        OffsetDateTime.now()),
-                new ImportRequestShopUnitDTO(
-                        List.of(new ImportShopUnitDTO(null,
-                                "cost",
-                                "550cb8c6-1554-4ffb-aaa7-f3fbefc8fa22",
-                                ShopUnitType.OFFER,
-                                90)),
-                        OffsetDateTime.now()));
+    @Test
+    void getSalesByDate() {
+        SalesResponse sales = service.getSalesByDate(getDateTime().plusHours(5));
+        assertThat(sales.getItems()).isNotEmpty();
+        assertThat(sales.getItems().size()).isEqualTo(3);
     }
 }

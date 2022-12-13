@@ -1,4 +1,9 @@
-package com.artur.MegaMarketOpenAPI.core.entity;
+package com.artur.MegaMarketOpenAPI.entity;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +21,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "shop_unit")
+@Getter
+@Setter
+@NoArgsConstructor
 public class ShopUnit {
     @Id
     @Column(name = "id", nullable = false)
@@ -41,79 +49,26 @@ public class ShopUnit {
     @JoinColumn(name = "parent_id")
     private List<ShopUnit> children = new ArrayList<>();
 
-    public List<ShopUnit> getChildren() {
-        return children;
-    }
-
-    public ShopUnit() {
-
-    }
-
     public ShopUnit(String id,ShopUnitType type ) {
         this.type = type;
         this.id = id;
     }
 
-    public ShopUnit(String id, String name,ShopUnitType type, OffsetDateTime date) {
+    public ShopUnit(String id, String name,String parentId, ShopUnitType type, OffsetDateTime date) {
         this.id = id;
         this.name = name;
-        this.type = type;
-        this.date = date;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public OffsetDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(OffsetDateTime date) {
-        this.date = date;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
         this.parentId = parentId;
-    }
-
-    public ShopUnitType getType() {
-        return type;
-    }
-
-    public void setType(ShopUnitType type) {
         this.type = type;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
+        this.date = date;
     }
 
     @Override
     public String toString() {
         return "ShopUnit{" +
                 "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", date=" + date +
+                ", type=" + type +
                 '}';
     }
 }

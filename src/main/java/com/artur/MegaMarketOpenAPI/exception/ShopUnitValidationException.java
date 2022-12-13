@@ -1,4 +1,4 @@
-package com.artur.MegaMarketOpenAPI.core.exception;
+package com.artur.MegaMarketOpenAPI.exception;
 
 public class ShopUnitValidationException extends RuntimeException {
     private int code;

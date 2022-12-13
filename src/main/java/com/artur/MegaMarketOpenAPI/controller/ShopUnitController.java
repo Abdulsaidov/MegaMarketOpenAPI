@@ -1,14 +1,13 @@
-package com.artur.MegaMarketOpenAPI.core.endpoint;
+package com.artur.MegaMarketOpenAPI.controller;
 
-import com.artur.MegaMarketOpenAPI.core.dto.ShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.request.ImportRequestShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.request.ImportShopUnitDTO;
-import com.artur.MegaMarketOpenAPI.core.dto.response.GetSalesResponse;
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
-import com.artur.MegaMarketOpenAPI.core.exception.ShopUnitNotFoundException;
-import com.artur.MegaMarketOpenAPI.core.service.GetNodeShopUnitService;
-import com.artur.MegaMarketOpenAPI.core.service.SalesShopUnitService;
-import com.artur.MegaMarketOpenAPI.core.service.ShopUnitService;
+import com.artur.MegaMarketOpenAPI.dto.ShopUnitDTO;
+import com.artur.MegaMarketOpenAPI.dto.request.ImportUnitsRequest;
+import com.artur.MegaMarketOpenAPI.dto.request.Units;
+import com.artur.MegaMarketOpenAPI.dto.response.SalesResponse;
+import com.artur.MegaMarketOpenAPI.entity.ShopUnit;
+import com.artur.MegaMarketOpenAPI.exception.ShopUnitNotFoundException;
+import com.artur.MegaMarketOpenAPI.service.GetNodeShopUnitService;
+import com.artur.MegaMarketOpenAPI.service.ShopUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -34,23 +33,21 @@ public class ShopUnitController {
 
     private final ShopUnitService shopUnitService;
     private final GetNodeShopUnitService nodeShopUnitService;
-    private final SalesShopUnitService salesShopUnitService;
 
     @Autowired
-    public ShopUnitController(ShopUnitService shopUnitService, GetNodeShopUnitService nodeShopUnitService, SalesShopUnitService salesShopUnitService) {
+    public ShopUnitController(ShopUnitService shopUnitService, GetNodeShopUnitService nodeShopUnitService) {
         this.shopUnitService = shopUnitService;
         this.nodeShopUnitService = nodeShopUnitService;
-        this.salesShopUnitService = salesShopUnitService;
     }
 
     @PostMapping("/imports")
-    public ResponseEntity<HttpStatus> importShopUnitDTO(@RequestBody @Valid ImportRequestShopUnitDTO importRequestShopUnitDTO) {
-        shopUnitService.importItems(importRequestShopUnitDTO);
+    public ResponseEntity<HttpStatus> importShopUnitDTO(@RequestBody @Valid ImportUnitsRequest importUnitsRequest) {
+        shopUnitService.importItems(importUnitsRequest);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping("/nodes/{id}")
-    public ResponseEntity<ShopUnitDTO> getNodeById(@PathVariable @Pattern(regexp = ImportShopUnitDTO.REGEXPUUID) String id) {
+    public ResponseEntity<ShopUnitDTO> getNodeById(@PathVariable @Pattern(regexp = Units.REGEXPUUID) String id) {
         ShopUnit shopUnit = shopUnitService.getShopUnitById(id).orElse(null);
         if (shopUnit == null)
             throw new ShopUnitNotFoundException(404, "Item not found");
@@ -59,7 +56,7 @@ public class ShopUnitController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteNodeById(@PathVariable @Pattern(regexp = ImportShopUnitDTO.REGEXPUUID) String id) {
+    public ResponseEntity<HttpStatus> deleteNodeById(@PathVariable @Pattern(regexp = Units.REGEXPUUID) String id) {
         ShopUnit shopUnit = shopUnitService.getShopUnitById(id).orElse(null);
         if (shopUnit == null)
             throw new ShopUnitNotFoundException(404, "Item not found");
@@ -70,9 +67,7 @@ public class ShopUnitController {
     }
 
     @GetMapping("/sales")
-    public ResponseEntity<GetSalesResponse> sales (@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
-        GetSalesResponse salesResponse = new GetSalesResponse();
-        salesResponse.setItems(salesShopUnitService.getSalesByDate(date));
-        return ResponseEntity.ok(salesResponse);
+    public ResponseEntity<SalesResponse> sales (@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date) {
+        return ResponseEntity.ok(shopUnitService.getSalesByDate(date));
     }
 }

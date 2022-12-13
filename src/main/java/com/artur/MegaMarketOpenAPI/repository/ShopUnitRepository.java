@@ -1,7 +1,7 @@
-package com.artur.MegaMarketOpenAPI.core.repository;
+package com.artur.MegaMarketOpenAPI.repository;
 
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
+import com.artur.MegaMarketOpenAPI.entity.ShopUnit;
+import com.artur.MegaMarketOpenAPI.entity.ShopUnitType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

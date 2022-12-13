@@ -1,4 +1,4 @@
-package com.artur.MegaMarketOpenAPI.core.entity;
+package com.artur.MegaMarketOpenAPI.entity;
 
 public enum ShopUnitType {
     OFFER,

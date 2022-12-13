@@ -1,86 +1,32 @@
-package com.artur.MegaMarketOpenAPI.core.dto;
+package com.artur.MegaMarketOpenAPI.dto;
 
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnit;
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
+import com.artur.MegaMarketOpenAPI.entity.ShopUnit;
+import com.artur.MegaMarketOpenAPI.entity.ShopUnitType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
 public class ShopUnitDTO {
 
     private String id;
-
     private String name;
-
     private String parentId;
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public ShopUnitType getType() {
-        return type;
-    }
-
-    public List<ShopUnitDTO> getChildren() {
-        return children;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public void setType(ShopUnitType type) {
-        this.type = type;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
+    private ShopUnitType type;
+    private Integer price;
+    private String date;
 
     public void setDate(OffsetDateTime date) {
 
         this.date = date.format(new DateTimeFormatterBuilder()
                 .appendInstant(3).toFormatter());
     }
-
-    public String getDate() {
-        return date;
-    }
-
-    private ShopUnitType type;
-
-    private Integer price;
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
     private List<ShopUnitDTO> children;
 
-    private String date;
 
     public static ShopUnitDTO fromOffer(ShopUnit shopUnit) {
         ShopUnitDTO shopUnitDTO = mapShopUnit(shopUnit);

@@ -1,4 +1,4 @@
-package com.artur.MegaMarketOpenAPI.core.exception;
+package com.artur.MegaMarketOpenAPI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

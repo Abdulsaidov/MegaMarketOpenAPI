@@ -1,8 +1,16 @@
-package com.artur.MegaMarketOpenAPI.core.exception;
+package com.artur.MegaMarketOpenAPI.exception;
 
-public class ShopUnitNotFoundException extends RuntimeException{
+public class ErrorResponse {
     private int code;
     private String message;
+
+    public ErrorResponse() {
+    }
+
+    public ErrorResponse(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     public int getCode() {
         return code;
@@ -17,14 +25,6 @@ public class ShopUnitNotFoundException extends RuntimeException{
     }
 
     public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public ShopUnitNotFoundException (){
-    }
-
-    public ShopUnitNotFoundException(int code, String message) {
-        this.code = code;
         this.message = message;
     }
 }

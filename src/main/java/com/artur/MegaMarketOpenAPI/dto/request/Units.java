@@ -1,6 +1,9 @@
-package com.artur.MegaMarketOpenAPI.core.dto.request;
+package com.artur.MegaMarketOpenAPI.dto.request;
 
-import com.artur.MegaMarketOpenAPI.core.entity.ShopUnitType;
+import com.artur.MegaMarketOpenAPI.entity.ShopUnitType;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -8,8 +11,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-
-public class ImportShopUnitDTO {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Units {
     public static final String REGEXPUUID = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
 
     @Pattern(message = "Введите действительный UUID",
@@ -28,35 +33,4 @@ public class ImportShopUnitDTO {
     private ShopUnitType type;
 
     private Integer price;
-
-    public ImportShopUnitDTO() {
-    }
-
-    public ImportShopUnitDTO(String id, String name, String parentId, ShopUnitType type, Integer price) {
-        this.id = id;
-        this.name = name;
-        this.parentId = parentId;
-        this.type = type;
-        this.price = price;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public ShopUnitType getType() {
-        return type;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
 }
