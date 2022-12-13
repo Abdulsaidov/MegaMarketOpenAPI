@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,10 +48,10 @@ public class ShopUnitService {
             ShopUnit shopUnit = getShopUnitById(units.getId()).orElse(new ShopUnit(units.getId(), units.getType()));
 
             if (!shopUnit.getType().equals(units.getType())) {
-                throw new ShopUnitValidationException(400,"Validation failed");
+                throw new ShopUnitValidationException(400, "Validation failed");
             }
             if (!isValidParent(units.getParentId())) {
-                throw new ShopUnitValidationException(400,"Validation failed");
+                throw new ShopUnitValidationException(400, "Validation failed");
             }
 
             shopUnit.setName(units.getName());
@@ -61,36 +61,29 @@ public class ShopUnitService {
             unitRepository.save(shopUnit);
 
             String parentId = shopUnit.getParentId();
-            while(parentId != null) {
+            while (parentId != null) {
                 ShopUnit parent = unitRepository.getReferenceById(parentId);
                 parent.setDate(importUnitsRequest.getUpdateDate());
                 parentId = parent.getParentId();
             }
-
         }
     }
 
     private boolean isValidParent(String parentId) {
-        if (parentId != null) {
-            if (unitRepository.existsById(parentId)) {
-                return !Objects.equals(getShopUnitById(parentId).get().getType(), ShopUnitType.OFFER);
-            } else {
-                return false;
-            }
+        if (parentId == null) {
+            return true;
         }
-        return true;
+        if (unitRepository.existsById(parentId)) {
+            return !Objects.equals(getShopUnitById(parentId).orElse(new ShopUnit()).getType(), ShopUnitType.OFFER);
+        } else {
+            return false;
+        }
     }
+
     public SalesResponse getSalesByDate(OffsetDateTime date) {
-
-        List<ShopUnitDTO> items = new ArrayList<>();
-        List<ShopUnit> shopUnits = unitRepository.findShopUnitsByDateBetweenAndType(date.minusHours(24), date, ShopUnitType.OFFER);
-
-
-        for (ShopUnit s : shopUnits) {
-            ShopUnitDTO item = new ShopUnitDTO();
-            modelMapper.map(s, item);
-            items.add(item);
-        }
+        List<ShopUnitDTO> items = unitRepository.findShopUnitsByDateBetweenAndType(date.minusHours(24), date, ShopUnitType.OFFER).stream()
+                .map(shopUnit -> modelMapper.map(shopUnit, ShopUnitDTO.class))
+                .collect(Collectors.toList());
         return new SalesResponse(items);
     }
 }
